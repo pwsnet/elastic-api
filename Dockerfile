@@ -32,4 +32,8 @@ RUN python3 setup.py install
 
 RUN mkdir /var/task/home/pws/plugins
 
-ENTRYPOINT [ "python3", "-m", "pws.home.main", "--host", "0.0.0.0", "--port", "3000", "--plugins", "/var/task/home/pws/plugins", "--debug" ]
+ENV HOST="0.0.0.0"
+ENV PORT="3000"
+ENV ROOT=""
+
+ENTRYPOINT [ "python3", "-m", "pws.home.main", "--plugins", "/var/task/home/pws/plugins", "--debug" ]
