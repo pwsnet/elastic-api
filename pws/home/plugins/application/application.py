@@ -6,8 +6,19 @@
 #
 # ====================
 
-__plugin__ = "application"
-__version__ = '0.1'
+__manifest__ = {
+    "name": "application",
+    "version": "0.1",
+    "description": "Basic plugin for PWS Home API",
+    "author": "Carlos Pomares",
+    "package": "pws.home.plugins.application",
+    "class": "ApplicationPlugin",
+    "prefix": "",
+    "depends_on": []
+}
+
+__plugin__ = __manifest__['name']
+__version__ = __manifest__['version']
 
 from pws.home.plugin import HomePlugin, APIRouter, JSONResponse
 from datetime import datetime

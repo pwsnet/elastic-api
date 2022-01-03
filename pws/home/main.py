@@ -8,6 +8,8 @@ from .domain import API
 from . import __version__
 from uvicorn import run
 
+import logging
+
 if __name__ == '__main__':
     
     parser = ArgumentParser(description='PWS Home API', prog='pws-home', epilog='PWS Home API')
@@ -49,5 +51,10 @@ if __name__ == '__main__':
             "plugins_directory": args.plugins
         }
     )
+
+    logging.info(f'PWS Home API v{__version__}')
+    logging.info(f'Running on {args.host}:{args.port}')
+    logging.info(f'Plugins directory: {args.plugins}')
+    logging.info(f'Debug mode: {args.debug}')
 
     run(app, host=args.host, port=args.port)

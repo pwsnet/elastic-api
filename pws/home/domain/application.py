@@ -1,13 +1,30 @@
 import importlib
 import logging
+import pathlib
 import os, sys
 
+from datetime import datetime
 from fastapi import FastAPI
 
 class API(FastAPI):
 
     detected_plugins: dict = {}
     installed_plugins: dict = {}
+
+    def __init_logging__(self):
+        # Create Logging directory
+        pathlib.Path('/var/log/pws').mkdir(parents=True, exist_ok=True)
+        # Create Logging file
+        log_file = f'/var/log/pws/monitor_{datetime.utcnow().strftime("%Y-%m-%d")}.log'
+        pathlib.Path(log_file).touch()
+        # Setup Logging
+        logging.basicConfig(
+            format='%(asctime)s %(levelname)-8s %(message)s',
+            level=logging.DEBUG if self.debug else logging.INFO,
+            datefmt='%Y-%m-%d %H:%M:%S',
+            filename=log_file,
+            filemode='a',
+        )
 
     def __load_default__(self):
         # List default plugin directory to detect the plugins
@@ -19,12 +36,11 @@ class API(FastAPI):
             if plugin not in ["__init__.py", "__pycache__"]:
                 logging.debug(f"Loading plugin: {plugin}")                
                 try:
-                    init = importlib.import_module(
-                        f"pws.home.plugins.{plugin}.__init__"
+                    module = importlib.import_module(
+                        f"pws.home.plugins.{plugin}.{plugin}"
                     )
-                    manifest = init.__manifest__
+                    manifest = module.__manifest__
                     logging.debug(f"Plugin manifest: {manifest}")
-                    module = importlib.import_module(f'{manifest["package"]}')    
                     self.installed_plugins[plugin] = {
                         'manisfest': manifest,
                         'module': getattr(module, manifest["class"])()
@@ -83,6 +99,7 @@ class API(FastAPI):
 
     def setup(self) -> None:
         # Load default plugins
+        self.__init_logging__()
         self.__load_default__()
         self.__load_plugins__()
         self.__include_plugins__()
