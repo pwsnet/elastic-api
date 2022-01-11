@@ -16,9 +16,9 @@ def get_version(rel_path: str) -> str:
 # long_description = read('README.md')
 
 setup(
-    name="pws-home",
-	version=get_version("pws/home/__init__.py"),
-	description="Home Automation API for Python",
+    name="pws-elastic-api",
+	version=get_version("pws/elastic/__init__.py"),
+	description="Elastic API for Python",
 	# long_description=long_description,
 	classifiers=[
 		"Intended Audience :: Developers",
@@ -31,7 +31,7 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
 	],
-	url="https://github.com/pwsnet/pws-home",
+	url="https://github.com/pwsnet/elastic-api",
 	packages=find_namespace_packages(
 		include=["pws.*"]
 	),

@@ -1,17 +1,9 @@
-# ====================
-# APPLICATION PLUGIN
-# v0.1
-#
-# GOALS: Common public methods for all plugins.
-#
-# ====================
-
 __manifest__ = {
     "name": "application",
     "version": "0.1",
     "description": "Basic plugin for PWS Home API",
     "author": "Carlos Pomares",
-    "package": "pws.home.plugins.application",
+    "package": "pws.elastic.plugins.application",
     "class": "ApplicationPlugin",
     "prefix": "",
     "depends_on": []
@@ -20,10 +12,10 @@ __manifest__ = {
 __plugin__ = __manifest__['name']
 __version__ = __manifest__['version']
 
-from pws.home.plugin import HomePlugin, APIRouter, JSONResponse
+from pws.elastic.plugin import ElasticPlugin, APIRouter, JSONResponse
 from datetime import datetime
 
-class ApplicationPlugin(HomePlugin):
+class ApplicationPlugin(ElasticPlugin):
 
     name = __plugin__
     version = __version__
@@ -43,19 +35,6 @@ class ApplicationPlugin(HomePlugin):
             return JSONResponse(
                 content={
                     'status': 'ok',
-                },
-                status_code=200
-            )
-
-        # Metadata
-        # ====================
-
-        @self.router.get('/version')
-        def version():
-            return JSONResponse(
-                content={
-                    "timestamp": datetime.utcnow().isoformat(),
-                    "version": __version__
                 },
                 status_code=200
             )

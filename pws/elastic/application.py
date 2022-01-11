@@ -30,14 +30,13 @@ class API(FastAPI):
         # List default plugin directory to detect the plugins
         for plugin in os.listdir(os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
-            '../',
             'plugins'
         )):
             if plugin not in ["__init__.py", "__pycache__"]:
                 logging.debug(f"Loading plugin: {plugin}")                
                 try:
                     module = importlib.import_module(
-                        f"pws.home.plugins.{plugin}.{plugin}"
+                        f"pws.elastic.plugins.{plugin}.{plugin}"
                     )
                     manifest = module.__manifest__
                     logging.debug(f"Plugin manifest: {manifest}")
@@ -99,7 +98,8 @@ class API(FastAPI):
 
     def setup(self) -> None:
         # Load default plugins
-        self.__init_logging__()
+        if self.debug:
+            self.__init_logging__()
         self.__load_default__()
         self.__load_plugins__()
         self.__include_plugins__()

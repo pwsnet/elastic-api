@@ -9,7 +9,7 @@ from importlib import import_module
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 
-class HomePlugin:
+class ElasticPlugin:
 
     router: APIRouter = None
     name: str = None
