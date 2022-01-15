@@ -1,6 +1,6 @@
 from pws.elastic import __version__
 from pws.elastic.args import ElasticArguments, create_parser
-from pws.elastic.application import API
+from pws.elastic.applications import API
 from pws.elastic import __version__
 
 from uvicorn import run

@@ -6,11 +6,12 @@
 import logging
 
 from importlib import import_module
-from fastapi import APIRouter
+from fastapi import FastAPI, APIRouter
 from fastapi.responses import JSONResponse
 
 class ElasticPlugin:
 
+    application: FastAPI = None
     router: APIRouter = None
     name: str = None
     version: str = None
@@ -32,6 +33,9 @@ class ElasticPlugin:
 
     def __load__(self) -> None:
         pass
+
+    def set_application(self, application: FastAPI) -> None:
+        self.application = application
 
     def get_router(self) -> APIRouter:
         return self.router

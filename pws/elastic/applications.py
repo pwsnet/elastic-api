@@ -26,29 +26,6 @@ class API(FastAPI):
             filemode='a',
         )
 
-    def __load_default__(self):
-        # List default plugin directory to detect the plugins
-        for plugin in os.listdir(os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            'plugins'
-        )):
-            if plugin not in ["__init__.py", "__pycache__"]:
-                logging.debug(f"Loading plugin: {plugin}")                
-                try:
-                    module = importlib.import_module(
-                        f"pws.elastic.plugins.{plugin}.{plugin}"
-                    )
-                    manifest = module.__manifest__
-                    logging.debug(f"Plugin manifest: {manifest}")
-                    self.installed_plugins[plugin] = {
-                        'manisfest': manifest,
-                        'module': getattr(module, manifest["class"])()
-                    }
-                    logging.debug("Loaded plugin: %s", plugin)
-                except Exception as e:
-                    logging.error(f'Error loading plugin: {plugin}')
-                    logging.error(e)
-
     def __load_plugins__(self):
         plugins_path = self.extra['extra']['plugins_directory']
         if plugins_path is None:
@@ -91,6 +68,7 @@ class API(FastAPI):
             manifest = plugin['manisfest']
             module = plugin['module']
             module.init()
+            module.set_application(self)
             self.include_router(
                 module.get_router(),
                 prefix=manifest['prefix']
@@ -100,7 +78,6 @@ class API(FastAPI):
         # Load default plugins
         if self.debug:
             self.__init_logging__()
-        self.__load_default__()
         self.__load_plugins__()
         self.__include_plugins__()
         super().setup()
