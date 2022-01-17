@@ -1,6 +1,6 @@
 from pws.elastic import __version__
 from pws.elastic.args import ElasticArguments, create_parser
-from pws.elastic.applications import API
+from pws.elastic.applications import ElasticAPI
 from pws.elastic import __version__
 
 from uvicorn import run
@@ -11,7 +11,7 @@ if __name__ == '__main__':
     parser = create_parser()
     args = ElasticArguments(parser)
     
-    app = API(
+    app = ElasticAPI(
         debug=args.debug,
         title="Elastic API",
         description="Elastic API for Python",

@@ -1,9 +1,7 @@
 """
+Elastic API
 
-PWS Home
-
-Home Automation API for Python
-
+Plugin based FastAPI service.
 """
 
 __version__ = '0.1'

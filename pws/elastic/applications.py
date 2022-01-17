@@ -6,7 +6,7 @@ import os, sys
 from datetime import datetime
 from fastapi import FastAPI
 
-class API(FastAPI):
+class ElasticAPI(FastAPI):
 
     detected_plugins: dict = {}
     installed_plugins: dict = {}
